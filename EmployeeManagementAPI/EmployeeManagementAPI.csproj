@@ -22,7 +22,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Middleware\" />
     <Folder Include="Data\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
