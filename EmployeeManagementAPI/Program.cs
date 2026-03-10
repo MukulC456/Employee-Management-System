@@ -53,6 +53,9 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:4200",
+                "http://localhost:4201",
+                "http://localhost:6922",
+                "http://localhost:3029",
                 "https://your-azure-frontend.azurewebsites.net"
               )
               .AllowAnyHeader()
