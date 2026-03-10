@@ -1,1 +1,100 @@
-<p>employee-list works!</p>
+<div class="dashboard">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <span class="logo">👔 EMS Pro</span>
+    </div>
+    <div class="nav-right">
+      <span class="user-email">{{ getEmail() }}</span>
+      <button class="btn btn-ghost" (click)="onLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HEADER -->
+    <div class="page-header">
+      <div>
+        <h2>Employees</h2>
+        <p>Manage your organization's employees</p>
+      </div>
+      <button class="btn btn-primary" (click)="onAdd()" *ngIf="isAdmin()">
+        + Add Employee
+      </button>
+    </div>
+
+    <!-- ERROR -->
+    <div class="error-message" *ngIf="errorMessage">
+      ❌ {{ errorMessage }}
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-bar">
+      <input
+        type="text"
+        [(ngModel)]="searchText"
+        (ngModelChange)="onSearch()"
+        placeholder="🔍 Search by name, email or department..."
+        class="search-input"
+      />
+      <span class="count">{{ filteredEmployees.length }} employees</span>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading" *ngIf="loading">
+      Loading employees...
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card" *ngIf="!loading">
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Salary</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of filteredEmployees">
+            <td>
+              <div class="emp-name">{{ emp.name }}</div>
+              <div class="emp-email">{{ emp.email }}</div>
+            </td>
+            <td><span class="dept-tag">{{ emp.department }}</span></td>
+            <td>{{ emp.role }}</td>
+            <td class="salary">₹{{ emp.salary | number }}</td>
+            <td>
+              <span class="badge" [class.active]="emp.status === 'Active'"
+                [class.inactive]="emp.status === 'Inactive'">
+                {{ emp.status }}
+              </span>
+            </td>
+            <td>
+              <div class="actions">
+                <button class="btn btn-edit" (click)="onEdit(emp.id)" *ngIf="isAdmin()">
+                  ✏️ Edit
+                </button>
+                <button class="btn btn-delete" (click)="onDelete(emp.id)" *ngIf="isAdmin()">
+                  🗑 Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- EMPTY STATE -->
+      <div class="empty-state" *ngIf="filteredEmployees.length === 0">
+        <div>🔍</div>
+        <p>No employees found</p>
+      </div>
+    </div>
+
+  </div>
+</div>
